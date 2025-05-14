@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4">Finance Dashboard</h2>
+
+  <!-- Summary Cards -->
+  <div class="row">
+    <!-- Total Revenue -->
+    <div class="col-md-2">
+      <div class="card bg-primary text-white mb-3">
+        <div class="card-body">
+          <h6>Total Revenue</h6>
+          <h4>UGX {{ total_revenue }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tuition -->
+    <div class="col-md-2">
+      <div class="card bg-success text-white mb-3">
+        <div class="card-body">
+          <h6>Tuition</h6>
+          <h5>UGX {{ tuition_total }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Registration -->
+    <div class="col-md-2">
+      <div class="card bg-info text-white mb-3">
+        <div class="card-body">
+          <h6>Registration</h6>
+          <h5>UGX {{ registration_total }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exam -->
+    <div class="col-md-2">
+      <div class="card bg-warning text-dark mb-3">
+        <div class="card-body">
+          <h6>Examination</h6>
+          <h5>UGX {{ exam_total }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Expenses -->
+    <div class="col-md-2">
+      <div class="card bg-danger text-white mb-3">
+        <div class="card-body">
+          <h6>Total Expenses</h6>
+          <h5>UGX {{ total_expense }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart Section -->
+  <div class="card p-4 mt-4">
+    <h5>Revenue Breakdown (Bar Chart)</h5>
+    <canvas id="revenueChart" width="400" height="150"></canvas>
+  </div>
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  const revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Tuition', 'Registration', 'Examination'],
+      datasets: [{
+        label: 'UGX Collected',
+        data: [
+          {{ tuition_total|floatformat:0 }},
+          {{ registration_total|floatformat:0 }},
+          {{ exam_total|floatformat:0 }}
+        ],
+        backgroundColor: [
+          'rgba(40, 167, 69, 0.6)',
+          'rgba(23, 162, 184, 0.6)',
+          'rgba(255, 193, 7, 0.6)'
+        ],
+        borderColor: [
+          'rgba(40, 167, 69, 1)',
+          'rgba(23, 162, 184, 1)',
+          'rgba(255, 193, 7, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  });
+</script>
+{% endblock %}
