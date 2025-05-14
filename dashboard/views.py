@@ -2,7 +2,9 @@ from django.shortcuts import render
 from finance.models import Payment
 from budgeting.models import Expense
 from django.db.models import Sum
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def dashboard_view(request):
     # Revenue Totals
     total_revenue = Payment.objects.aggregate(Sum('amount'))['amount__sum'] or 0

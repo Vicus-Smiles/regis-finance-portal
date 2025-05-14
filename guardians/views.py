@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import GuardianForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def register_guardian(request):
     if request.method == 'POST':
         form = GuardianForm(request.POST)

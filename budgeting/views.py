@@ -3,6 +3,7 @@ from django import forms
 from django.db.models import Sum
 from .models import Expense
 from .forms import ExpenseForm
+from django.contrib.auth.decorators import login_required
 
 
 # ------------------------------
@@ -24,6 +25,8 @@ class ExpenseFilterForm(forms.Form):
 # ------------------------------
 # Record a new expense
 # ------------------------------
+
+@login_required
 def record_expense(request):
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
@@ -39,6 +42,7 @@ def record_expense(request):
 # ------------------------------
 # List all expenses + filters + chart
 # ------------------------------
+@login_required
 def expense_list(request):
     form = ExpenseFilterForm(request.GET or None)
     expenses = Expense.objects.all().order_by('-date')
@@ -63,6 +67,7 @@ def expense_list(request):
 import openpyxl
 from django.http import HttpResponse
 
+@login_required
 def export_expenses_to_excel(request):
     from .models import Expense
 

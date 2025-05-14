@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import PaymentForm
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def record_payment(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
@@ -14,6 +16,7 @@ def record_payment(request):
 
 from .models import Payment
 
+@login_required
 def payment_list(request):
     payments = Payment.objects.all().order_by('-date')
     return render(request, 'finance/payment_list.html', {'payments': payments})
