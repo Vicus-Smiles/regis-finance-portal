@@ -16,21 +16,21 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.views.generic import TemplateView
-from django.urls import path, include
+from accounts.views import CustomLoginView
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', login_required(TemplateView.as_view(template_name='home.html')), name='dashboard'),
-    path('students/', include('students.urls')),
-    path('guardians/', include('guardians.urls')),
+    path('dashboard/', include('dashboard.urls')),
+    #path('dashboard/students/', include('students.urls')),
+    #path('dashboard/analytics', include('dashboard.urls')),
+    #path('guardians/', include('guardians.urls')),
     path('academics/', include('academics.urls')),
-    path('finance/', include('finance.urls')),
-    #path('dashbd/', include('dashboard.urls')),
-    path('budgeting/', include('budgeting.urls')),
-    path('', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
+    #path('finance/', include('finance.urls')),
+    
+    #path('budgeting/', include('budgeting.urls')),
+    path('', CustomLoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
 
