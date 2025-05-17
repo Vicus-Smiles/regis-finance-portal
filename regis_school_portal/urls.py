@@ -26,7 +26,7 @@ urlpatterns = [
     #path('dashboard/students/', include('students.urls')),
     #path('dashboard/analytics', include('dashboard.urls')),
     #path('guardians/', include('guardians.urls')),
-    path('academics/', include('academics.urls')),
+    #path('academics/', include('academics.urls')),
     #path('finance/', include('finance.urls')),
     
     #path('budgeting/', include('budgeting.urls')),

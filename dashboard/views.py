@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django import forms
 from .models import Expense, Payment
 from django.db.models import Sum
-from .forms import StudentForm, ExpenseForm, PaymentForm, GuardianForm
+from .forms import StudentForm, ExpenseForm, PaymentForm
 import openpyxl
 from django.http import HttpResponse
 
@@ -157,16 +157,3 @@ def analytics_view(request):
     }
 
     return render(request, 'dashboard/analytics.html', context)
-
-
-@login_required
-def register_guardian(request):
-    if request.method == 'POST':
-        form = GuardianForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('register_guardian')
-    else:
-        form = GuardianForm()
-    
-    return render(request, 'dashboard/guardian_form.html', {'form': form})

@@ -11,5 +11,4 @@ urlpatterns = [
     path('expenses/export/', views.export_expenses_to_excel, name='dashboard_export_expenses_excel'),
     path('payments/new', views.record_payment, name='dashboard_record_payment'),
     path('payments/', views.payment_list, name='dashboard_payment_list'),
-    path('guardian/new', views.register_guardian, name='dashboard_register_guardian'),
 ]
