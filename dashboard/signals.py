@@ -1,31 +1,25 @@
-# Dashboard/signals.py
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from .models import Student
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Payment
 
-@receiver(post_save, sender=Payment)
-def send_payment_notification_to_headteacher(sender, instance, created, **kwargs):
-    if created:  # only send when a new Payment is created
-        subject = "New Student Payment Received"
-        message = f"""
-Dear Guardian/Parent,
+@receiver(post_save, sender=Student)
+def notify_guardian_on_registration(sender, instance, created, **kwargs):
+    if created:
+        subject = "Student Registration Completed"
+        message = (
+            f"Dear {instance.guardian_name},\n\n"
+            f"We are pleased to inform you that {instance.full_name} has successfully registered.\n\n"
+            f"Regards,\nSchool Administration"
+        )
+        recipient = instance.guardian_email
 
-A payment has been made in the system.
-
-Student: {instance.student.full_name}
-Amount: UGX {instance.amount}
-Date: {instance.date.strftime('%Y-%m-%d %H:%M:%S')}
-
-Best regards,
-REGIS High School Finance Portal
-"""
+        # Example using email; you could also send SMS using Twilio or other gateway
         send_mail(
             subject,
             message,
-            settings.EMAIL_HOST_USER,
-            [settings.HEADTEACHER_EMAIL],
-            fail_silently=False
+            settings.DEFAULT_FROM_EMAIL,
+            [recipient],
+            fail_silently=True,
         )

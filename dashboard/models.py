@@ -11,6 +11,9 @@ class Student(models.Model):
     parish = models.CharField(max_length=50)
     subcounty = models.CharField(max_length=50)
     district = models.CharField(max_length=50)
+    guardian_name = models.CharField(max_length=100)
+    guardian_email = models.EmailField()
+    guardian_phone = models.CharField(max_length=15)
 
     def __str__(self):
         return self.full_name

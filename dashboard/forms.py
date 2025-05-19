@@ -30,6 +30,9 @@ class StudentForm(forms.ModelForm):
             'parish': forms.TextInput(attrs={'class': 'form-control'}),
             'subcounty': forms.TextInput(attrs={'class': 'form-control'}),
             'district': forms.TextInput(attrs={'class': 'form-control'}),
+            'guardian_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'guardian_email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'guardian_phone': forms.TextInput(attrs={'class': 'form-control'})
         }
 
 class ExpenseForm(forms.ModelForm):

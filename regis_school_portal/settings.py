@@ -141,5 +141,4 @@ EMAIL_HOST_USER = 'okurwothvicusocama@gmail.com'
 # Paste your 16-digit app password here (not your real Gmail password!)
 EMAIL_HOST_PASSWORD = 'ajcw mpbn rftl zgud'
 
-# Set the headteacher's email
-HEADTEACHER_EMAIL = 'vicuscgc@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
