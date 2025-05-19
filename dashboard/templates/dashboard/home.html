@@ -1,17 +1,182 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="text-center">
-    <h1>Welcome to REGIS High School Finance Portal</h1>
-    <p class="lead">Manage student info, payments, and budgets easily.</p>
+<style>
+  /* Background Animation */
+  .dashboard-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    animation: morphBackground 24s infinite;
+    opacity: 0.8;
+  }
 
-    <a href="{% url 'dashboard_student_register' %}" class="btn btn-success m-2">Register New Student</a>
-    <a href="{% url 'dashboard_student_list' %}" class="btn btn-primary m-2">View Registered Students</a>
-    <a href="{% url 'dashboard_record_payment' %}" class="btn btn-outline-primary m-2">Record Payment</a>
-    <a href="{% url 'dashboard_payment_list' %}" class="btn btn-outline-success m-2">View Payments</a>
-    <a href="{% url 'dashboard_analytics' %}" class="btn btn-outline-dark m-2">Analytics</a>
-    <a href="{% url 'dashboard_record_expense' %}" class="btn btn-outline-danger m-2">Record Expense</a>
-    <a href="{% url 'dashboard_expense_list' %}" class="btn btn-outline-dark m-2">View Expenses</a>
+  @keyframes morphBackground {
+    0% { background-image: url('https://lirp.cdn-website.com/2108cee5/dms3rep/multi/opt/_DSC3540-1920w.jpg'); }
+    25% { background-image: url('https://bweranyangigirls.sc.ug/wp-content/uploads/2018/05/s-11.jpg'); }
+    50% { background-image: url('https://elitehighschentebbe.com/imgs/1702079618newimage.JPG'); }
+    75% { background-image: url('https://elitehighschentebbe.com/imgs/1702592448newimage.JPG'); }
+    100% { background-image: url('https://lirp.cdn-website.com/2108cee5/dms3rep/multi/opt/_DSC3540-1920w.jpg'); }
+  }
 
+  /* Dashboard Content */
+  .dashboard-container {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 3rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .dashboard-header {
+    margin-bottom: 2.5rem;
+    color: #2c3e50;
+  }
+
+  .dashboard-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .dashboard-header p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    color: #5d6d7e;
+  }
+
+  .action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .action-btn {
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .action-btn i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .action-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary-action {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+  }
+
+  .btn-success-action {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    color: white;
+  }
+
+  .btn-danger-action {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+  }
+
+  .btn-dark-action {
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: white;
+  }
+
+  .btn-outline-action {
+    background: white;
+    border: 2px solid #3498db;
+    color: #3498db;
+  }
+
+  .btn-outline-action:hover {
+    background: #3498db;
+    color: white;
+  }
+</style>
+
+<!-- Background Animation -->
+<div class="dashboard-bg"></div>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="dashboard-container">
+    <div class="dashboard-header text-center">
+      <h1>Welcome to REGIS High School Finance Portal</h1>
+      <p>Efficiently manage student information, payments, and school budgets</p>
+    </div>
+
+    <div class="action-grid">
+      <a href="{% url 'dashboard_student_register' %}" class="action-btn btn-success-action">
+        <i class="fas fa-user-plus"></i>
+        Register New Student
+      </a>
+
+      <a href="{% url 'dashboard_student_list' %}" class="action-btn btn-primary-action">
+        <i class="fas fa-users"></i>
+        View Registered Students
+      </a>
+
+      <a href="{% url 'dashboard_record_payment' %}" class="action-btn btn-primary-action">
+        <i class="fas fa-money-bill-wave"></i>
+        Record Payment
+      </a>
+
+      <a href="{% url 'dashboard_payment_list' %}" class="action-btn btn-success-action">
+        <i class="fas fa-receipt"></i>
+        View Payments
+      </a>
+
+      <a href="{% url 'dashboard_analytics' %}" class="action-btn btn-dark-action">
+        <i class="fas fa-chart-line"></i>
+        Analytics Dashboard
+      </a>
+
+      <a href="{% url 'dashboard_record_expense' %}" class="action-btn btn-danger-action">
+        <i class="fas fa-file-invoice-dollar"></i>
+        Record Expense
+      </a>
+
+      <a href="{% url 'dashboard_expense_list' %}" class="action-btn btn-dark-action">
+        <i class="fas fa-list-alt"></i>
+        View Expenses
+      </a>
+    </div>
   </div>
+</div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 {% endblock %}

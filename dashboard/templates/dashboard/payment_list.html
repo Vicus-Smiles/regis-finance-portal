@@ -1,38 +1,204 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-  <div class="card shadow p-4 mt-3">
-    <h2 class="mb-4">All Payments</h2>
+<style>
+  /* Background Styling */
+  body {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://bweranyangigirls.sc.ug/wp-content/uploads/2018/05/s-33-1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+  }
 
-    <table class="table table-bordered table-striped">
-      <thead class="table-dark">
-        <tr>
-          <th>Date</th>
-          <th>Student</th>
-          <th>Type</th>
-          <th>Method</th>
-          <th>Amount Paid</th>
-          <th>Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for payment in payments %}
-        <tr>
-          <td>{{ payment.date }}</td>
-          <td>{{ payment.student.full_name }}</td>
-          <td>{{ payment.payment_type }}</td>
-          <td>{{ payment.method }}</td>
-          <td>{{ payment.amount }}</td>
-          <td>{{ payment.balance }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-          <td colspan="6" class="text-center">No payments recorded yet.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  /* Main Container */
+  .payment-list-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
+    margin: 3rem auto;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Header Styling */
+  .payment-list-header {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .payment-list-header h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Table Styling */
+  .payment-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95rem;
+  }
+
+  .payment-table thead th {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: white;
+    font-weight: 500;
+    padding: 14px 16px;
+    position: sticky;
+    top: 0;
+    border: none;
+  }
+
+  .payment-table tbody tr {
+    transition: all 0.2s ease;
+  }
+
+  .payment-table tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+    transform: translateX(2px);
+  }
+
+  .payment-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e9ecef;
+    vertical-align: middle;
+  }
+
+  .payment-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Alternate row coloring */
+  .payment-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+  }
+
+  /* Amount Styling */
+  .amount-paid {
+    font-weight: 600;
+    color: #28a745;
+  }
+
+  .balance {
+    font-weight: 600;
+    color: #dc3545;
+  }
+
+  /* Empty State Styling */
+  .empty-state {
+    color: #6c757d;
+    padding: 2rem;
+    text-align: center;
+    font-size: 1.1rem;
+  }
+
+  .empty-state i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #adb5bd;
+  }
+
+  /* Action Button */
+  .new-payment-btn {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 500;
+    color: white;
+    transition: all 0.3s;
+  }
+
+  .new-payment-btn:hover {
+    background: linear-gradient(135deg, #27ae60, #219653);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: white;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 992px) {
+    .payment-list-container {
+      padding: 1.5rem;
+    }
+    
+    .payment-table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+
+  /* Date Formatting */
+  .payment-date {
+    white-space: nowrap;
+  }
+</style>
+
+<div class="container">
+  <div class="payment-list-container">
+    <div class="payment-list-header">
+      <h2>All Payments</h2>
+      <a href="{% url 'dashboard_record_payment' %}" class="new-payment-btn">
+        <i class="fas fa-plus"></i> New Payment
+      </a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="payment-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Student</th>
+            <th>Type</th>
+            <th>Method</th>
+            <th>Amount Paid</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for payment in payments %}
+          <tr>
+            <td class="payment-date">{{ payment.date|date:"M d, Y" }}</td>
+            <td>{{ payment.student.full_name }}</td>
+            <td>{{ payment.payment_type }}</td>
+            <td>{{ payment.method }}</td>
+            <td class="amount-paid">UGX {{ payment.amount }}</td>
+            <td class="balance">UGX {{ payment.balance }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="empty-state">
+              <i class="fas fa-money-bill-wave"></i>
+              <p>No payments recorded yet.</p>
+              <a href="{% url 'dashboard_record_payment' %}" class="new-payment-btn">
+                <i class="fas fa-plus"></i> Record First Payment
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}

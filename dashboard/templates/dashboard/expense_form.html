@@ -1,23 +1,228 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+  /* Background Styling */
+  body {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://bweranyangigirls.sc.ug/wp-content/uploads/2018/05/s-34.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* Form Container */
+  .expense-form-container {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
+    margin: 3rem auto;
+    max-width: 700px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  /* Header Styling */
+  .expense-form-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  .expense-form-header h2 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .expense-form-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 30%;
+    width: 40%;
+    height: 4px;
+    background: linear-gradient(to right, #e74c3c, #d35400);
+    border-radius: 2px;
+  }
+
+  /* Form Elements */
+  .form-group {
+    margin-bottom: 1.75rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .form-control {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    transition: all 0.3s;
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .form-control:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.2);
+    outline: none;
+  }
+
+  select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23343a40' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+  }
+
+  /* Error Styling */
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Submit Button */
+  .submit-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border: none;
+    border-radius: 8px;
+    padding: 14px 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: white;
+    transition: all 0.3s;
+    width: 100%;
+    margin-top: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Form Layout */
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-col {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .expense-form-container {
+      padding: 1.75rem;
+      margin: 2rem auto;
+    }
+    
+    .expense-form-header h2 {
+      font-size: 1.9rem;
+    }
+    
+    .form-row {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+</style>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <div class="container">
-  <div class="card shadow p-4 mt-3">
-    <h2 class="mb-4">Record Expense</h2>
+  <div class="expense-form-container">
+    <div class="expense-form-header">
+      <h2>Record Expense</h2>
+      <p>Track school expenditures for better financial management</p>
+    </div>
 
     <form method="POST">
       {% csrf_token %}
-      {% for field in form %}
-        <div class="mb-3">
-          <label class="form-label">{{ field.label_tag }}</label>
-          {{ field }}
-          {% if field.errors %}
-            <div class="text-danger">{{ field.errors }}</div>
-          {% endif %}
+      
+      <div class="form-row">
+        <div class="form-col">
+          <div class="form-group">
+            <label class="form-label" for="id_expense_date">Date</label>
+            <input type="date" name="expense_date" id="id_expense_date" class="form-control" required>
+          </div>
         </div>
-      {% endfor %}
-      <button type="submit" class="btn btn-danger">Submit Expense</button>
+        <div class="form-col">
+          <div class="form-group">
+            <label class="form-label" for="id_category">Category</label>
+            <select name="category" id="id_category" class="form-control" required>
+              <option value="" selected disabled>Select category</option>
+              <option value="Administration">Administration</option>
+              <option value="Academics">Academics</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Utilities">Utilities</option>
+              <option value="Activities">Activities</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="id_description">Description</label>
+        <input type="text" name="description" id="id_description" class="form-control" placeholder="Enter expense description" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-col">
+          <div class="form-group">
+            <label class="form-label" for="id_amount">Amount (UGX)</label>
+            <input type="number" name="amount" id="id_amount" class="form-control" placeholder="Enter amount" step="0.01" min="0" required>
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="form-group">
+            <label class="form-label" for="id_payment_method">Payment Method</label>
+            <select name="payment_method" id="id_payment_method" class="form-control" required>
+              <option value="" selected disabled>Select method</option>
+              <option value="Cash">Cash</option>
+              <option value="Bank Transfer">Bank Transfer</option>
+              <option value="Mobile Money">Mobile Money</option>
+              <option value="Cheque">Cheque</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="id_notes">Notes</label>
+        <textarea name="notes" id="id_notes" class="form-control" rows="3" placeholder="Additional notes (optional)"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-save"></i> Record Expense
+      </button>
     </form>
   </div>
 </div>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
