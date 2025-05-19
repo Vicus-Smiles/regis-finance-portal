@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class Student(models.Model):
     student_id = models.CharField(max_length=20, unique=True)
@@ -48,8 +49,9 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_type = models.CharField(max_length=20, choices=PAYMENT_TYPES)
     method = models.CharField(max_length=20, choices=METHOD_CHOICES)
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    date = models.DateField(auto_now_add=True)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    # date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now) 
 
     def __str__(self):
         return f"{self.student.full_name} - {self.payment_type}"

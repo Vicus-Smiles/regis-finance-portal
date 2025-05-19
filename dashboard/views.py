@@ -21,7 +21,7 @@ def student_register(request):
         form = StudentForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('student_register')  # Redirect to a success or same page
+            return redirect('dashboard_student_register')  # Redirect to a success or same page
     else:
         form = StudentForm()
 
@@ -61,7 +61,7 @@ def record_expense(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('record_expense')
+            return redirect('dashboard_record_expense')
     else:
         form = ExpenseForm()
 
@@ -123,7 +123,7 @@ def record_payment(request):
         form = PaymentForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('record_payment')  # Or redirect to a success page or list
+            return redirect('dashboard_record_payment')  # Or redirect to a success page or list
     else:
         form = PaymentForm()
 
